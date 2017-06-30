@@ -18,7 +18,6 @@ package org.japo.java.forms;
 import java.net.URL;
 import javax.swing.ImageIcon;
 import org.japo.java.controllers.Controller;
-import org.japo.java.controllers.EventsController;
 import org.japo.java.entities.Model;
 
 /**
@@ -30,7 +29,6 @@ public class View extends javax.swing.JFrame {
     // Referencias 
     private Model model;
     private Controller control;
-    private EventsController eventsControl;
 
     // Constructor
     public View() {
@@ -52,9 +50,6 @@ public class View extends javax.swing.JFrame {
         // Generar Controlador
         control = new Controller(model, this);
 
-        // Referencia al Controlador de Eventos
-        eventsControl = control.getEventsControl();
-        
         // Restaurar Estado Previo
         control.restaurarEstadoApp();
 
@@ -67,11 +62,14 @@ public class View extends javax.swing.JFrame {
         URL urlICN = ClassLoader.getSystemResource("img/favicon.png");
         setIconImage(new ImageIcon(urlICN).getImage());
 
+//        // Escuchador Cambio Texto
+//        txfTexto.getDocument().addDocumentListener(new DEM(control));
+
         // Modelo > Vista
-        control.sincronizarModeloVista();
+        control.sincronizarModeloVista(model, this);
 
         // Enfocar Control Inicial
-        sldRojo.requestFocus();
+        btnCargar.requestFocus();
 
         // Otras inicializaciones
     }
@@ -338,35 +336,35 @@ public class View extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        eventsControl.procesarCierreVentana(evt);
+        control.procesarCierreVentana(evt);
     }//GEN-LAST:event_formWindowClosing
 
     private void btnCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarActionPerformed
-        eventsControl.procesarImportacion(evt);
+        control.procesarImportacion(evt);
     }//GEN-LAST:event_btnCargarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        eventsControl.procesarExportacion(evt);
+        control.procesarExportacion(evt);
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void rbtFrenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtFrenteActionPerformed
-        eventsControl.procesarCambioPlano(evt);
+        control.procesarCambioFrenteFondo(evt);
     }//GEN-LAST:event_rbtFrenteActionPerformed
 
     private void rbtFondoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtFondoActionPerformed
-        eventsControl.procesarCambioPlano(evt);
+        control.procesarCambioFrenteFondo(evt);
     }//GEN-LAST:event_rbtFondoActionPerformed
 
     private void sldRojoStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sldRojoStateChanged
-        eventsControl.procesarAjusteColor(evt);
+        control.procesarAjusteColor(evt);
     }//GEN-LAST:event_sldRojoStateChanged
 
     private void sldVerdeStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sldVerdeStateChanged
-        eventsControl.procesarAjusteColor(evt);
+        control.procesarAjusteColor(evt);
     }//GEN-LAST:event_sldVerdeStateChanged
 
     private void sldAzulStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sldAzulStateChanged
-        eventsControl.procesarAjusteColor(evt);
+        control.procesarAjusteColor(evt);
     }//GEN-LAST:event_sldAzulStateChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
