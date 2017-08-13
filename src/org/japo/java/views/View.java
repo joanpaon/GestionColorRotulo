@@ -1,4 +1,4 @@
-/*
+/* 
  * Copyright 2017 José A. Pacheco Ondoño - joanpaon@gmail.com.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.japo.java.view;
+package org.japo.java.views;
 
-import java.net.URL;
-import javax.swing.ImageIcon;
+import java.util.Properties;
 import org.japo.java.controllers.Controller;
-import org.japo.java.entities.Model;
+import org.japo.java.models.Model;
+import org.japo.java.libraries.UtilesApp;
 
 /**
  *
@@ -26,52 +26,32 @@ import org.japo.java.entities.Model;
  */
 public class View extends javax.swing.JFrame {
 
+    // Fichero Propiedades
+    public static final String FICHERO = "view.properties";
+
     // Referencias 
     private Model model;
     private Controller control;
+    private Properties prpView;
 
     // Constructor
     public View() {
-        // Inicializar Vista - PREVIA
-        beforeInit();
+        // Inicializacion Anterior
+        initBefore();
 
-        // Construcción - Vista
+        // Creación Vista
         initComponents();
 
-        // Inicializar Vista - POSTERIOR
-        afterInit();
+        // Inicializacion Posterior
+        initAfter();
     }
 
-    // Inicializar Vista - PREVIA
-    private void beforeInit() {
-        // Generar Modelo
-        model = new Model();
-
-        // Generar Controlador
-        control = new Controller(model, this);
-
-        // Restaurar Estado Previo
-        control.restaurarEstadoApp();
-
-        // Otras inicializaciones
+    public Model getModel() {
+        return model;
     }
 
-    // Inicializar Vista - POSTERIOR
-    private void afterInit() {
-        // Icono Ventana - Recurso
-        URL urlICN = ClassLoader.getSystemResource("img/favicon.png");
-        setIconImage(new ImageIcon(urlICN).getImage());
-
-//        // Escuchador Cambio Texto
-//        txfTexto.getDocument().addDocumentListener(new DEM(control));
-
-        // Modelo > Vista
-        control.sincronizarModeloVista(model, this);
-
-        // Enfocar Control Inicial
-        btnCargar.requestFocus();
-
-        // Otras inicializaciones
+    public void setModel(Model model) {
+        this.model = model;
     }
 
     /**
@@ -84,9 +64,9 @@ public class View extends javax.swing.JFrame {
     private void initComponents() {
 
         bg = new javax.swing.ButtonGroup();
-        pnlDisplay = new javax.swing.JPanel();
+        pnlRotulo = new javax.swing.JPanel();
         lblRotulo = new javax.swing.JLabel();
-        pnlAjustes = new javax.swing.JPanel();
+        pnlAjuste = new javax.swing.JPanel();
         sldRojo = new javax.swing.JSlider();
         lblRojo = new javax.swing.JLabel();
         sldVerde = new javax.swing.JSlider();
@@ -97,9 +77,9 @@ public class View extends javax.swing.JFrame {
         lblFrente = new javax.swing.JLabel();
         rbtFondo = new javax.swing.JRadioButton();
         lblFondo = new javax.swing.JLabel();
-        pnlControles = new javax.swing.JPanel();
-        btnCargar = new javax.swing.JButton();
-        btnGuardar = new javax.swing.JButton();
+        pnlControl = new javax.swing.JPanel();
+        btnImportar = new javax.swing.JButton();
+        btnExportar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Gestión Color Rótulo");
@@ -110,7 +90,7 @@ public class View extends javax.swing.JFrame {
             }
         });
 
-        pnlDisplay.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Rótulo", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 18))); // NOI18N
+        pnlRotulo.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Rótulo", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 18))); // NOI18N
 
         lblRotulo.setBackground(java.awt.Color.white);
         lblRotulo.setFont(new java.awt.Font("Calibri", 0, 48)); // NOI18N
@@ -120,27 +100,28 @@ public class View extends javax.swing.JFrame {
         lblRotulo.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         lblRotulo.setOpaque(true);
 
-        javax.swing.GroupLayout pnlDisplayLayout = new javax.swing.GroupLayout(pnlDisplay);
-        pnlDisplay.setLayout(pnlDisplayLayout);
-        pnlDisplayLayout.setHorizontalGroup(
-            pnlDisplayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlDisplayLayout.createSequentialGroup()
+        javax.swing.GroupLayout pnlRotuloLayout = new javax.swing.GroupLayout(pnlRotulo);
+        pnlRotulo.setLayout(pnlRotuloLayout);
+        pnlRotuloLayout.setHorizontalGroup(
+            pnlRotuloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlRotuloLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lblRotulo, javax.swing.GroupLayout.PREFERRED_SIZE, 754, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        pnlDisplayLayout.setVerticalGroup(
-            pnlDisplayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlDisplayLayout.createSequentialGroup()
+        pnlRotuloLayout.setVerticalGroup(
+            pnlRotuloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlRotuloLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lblRotulo, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        pnlAjustes.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Ajustes", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 18))); // NOI18N
+        pnlAjuste.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Ajustes", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 18))); // NOI18N
 
         sldRojo.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         sldRojo.setMaximum(255);
+        sldRojo.setValue(255);
         sldRojo.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 sldRojoStateChanged(evt);
@@ -155,6 +136,7 @@ public class View extends javax.swing.JFrame {
 
         sldVerde.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         sldVerde.setMaximum(255);
+        sldVerde.setValue(255);
         sldVerde.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 sldVerdeStateChanged(evt);
@@ -169,6 +151,7 @@ public class View extends javax.swing.JFrame {
 
         sldAzul.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         sldAzul.setMaximum(255);
+        sldAzul.setValue(255);
         sldAzul.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 sldAzulStateChanged(evt);
@@ -210,100 +193,103 @@ public class View extends javax.swing.JFrame {
         lblFondo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblFondo.setOpaque(true);
 
-        javax.swing.GroupLayout pnlAjustesLayout = new javax.swing.GroupLayout(pnlAjustes);
-        pnlAjustes.setLayout(pnlAjustesLayout);
-        pnlAjustesLayout.setHorizontalGroup(
-            pnlAjustesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlAjustesLayout.createSequentialGroup()
+        javax.swing.GroupLayout pnlAjusteLayout = new javax.swing.GroupLayout(pnlAjuste);
+        pnlAjuste.setLayout(pnlAjusteLayout);
+        pnlAjusteLayout.setHorizontalGroup(
+            pnlAjusteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlAjusteLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pnlAjustesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(pnlAjustesLayout.createSequentialGroup()
+                .addGroup(pnlAjusteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(pnlAjusteLayout.createSequentialGroup()
                         .addComponent(sldRojo, javax.swing.GroupLayout.PREFERRED_SIZE, 698, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblRojo, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnlAjustesLayout.createSequentialGroup()
-                        .addGroup(pnlAjustesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(pnlAjusteLayout.createSequentialGroup()
+                        .addGroup(pnlAjusteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(sldAzul, javax.swing.GroupLayout.DEFAULT_SIZE, 698, Short.MAX_VALUE)
                             .addComponent(sldVerde, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(pnlAjustesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(pnlAjusteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblVerde, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblAzul, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlAjustesLayout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlAjusteLayout.createSequentialGroup()
                         .addComponent(rbtFrente, javax.swing.GroupLayout.PREFERRED_SIZE, 698, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(lblFrente, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnlAjustesLayout.createSequentialGroup()
+                    .addGroup(pnlAjusteLayout.createSequentialGroup()
                         .addComponent(rbtFondo, javax.swing.GroupLayout.PREFERRED_SIZE, 698, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(lblFondo, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        pnlAjustesLayout.setVerticalGroup(
-            pnlAjustesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlAjustesLayout.createSequentialGroup()
+        pnlAjusteLayout.setVerticalGroup(
+            pnlAjusteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlAjusteLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pnlAjustesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnlAjusteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblRojo, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(sldRojo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(pnlAjustesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnlAjusteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblVerde, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(sldVerde, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(pnlAjustesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnlAjusteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblAzul, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(sldAzul, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(pnlAjustesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnlAjusteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblFrente, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(rbtFrente))
                 .addGap(18, 18, 18)
-                .addGroup(pnlAjustesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnlAjusteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblFondo, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(rbtFondo))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        pnlAjustesLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblAzul, lblFrente, lblRojo, lblVerde, rbtFrente, sldAzul, sldRojo, sldVerde});
+        pnlAjusteLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblAzul, lblFrente, lblRojo, lblVerde, rbtFrente, sldAzul, sldRojo, sldVerde});
 
-        pnlAjustesLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblFondo, rbtFondo});
+        pnlAjusteLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblFondo, rbtFondo});
 
-        pnlControles.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Controles", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 18))); // NOI18N
+        pnlControl.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Controles", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 18))); // NOI18N
 
-        btnCargar.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
-        btnCargar.setText("Cargar");
-        btnCargar.addActionListener(new java.awt.event.ActionListener() {
+        btnImportar.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
+        btnImportar.setText("Importar");
+        btnImportar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCargarActionPerformed(evt);
+                btnImportarActionPerformed(evt);
             }
         });
 
-        btnGuardar.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
-        btnGuardar.setText("Guardar");
-        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+        btnExportar.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
+        btnExportar.setText("Exportar");
+        btnExportar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGuardarActionPerformed(evt);
+                btnExportarActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout pnlControlesLayout = new javax.swing.GroupLayout(pnlControles);
-        pnlControles.setLayout(pnlControlesLayout);
-        pnlControlesLayout.setHorizontalGroup(
-            pnlControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlControlesLayout.createSequentialGroup()
+        javax.swing.GroupLayout pnlControlLayout = new javax.swing.GroupLayout(pnlControl);
+        pnlControl.setLayout(pnlControlLayout);
+        pnlControlLayout.setHorizontalGroup(
+            pnlControlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlControlLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(119, 119, 119))
+                .addComponent(btnImportar, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(78, 78, 78)
+                .addComponent(btnExportar, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(89, 89, 89))
         );
-        pnlControlesLayout.setVerticalGroup(
-            pnlControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlControlesLayout.createSequentialGroup()
-                .addGroup(pnlControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCargar)
-                    .addComponent(btnGuardar))
+
+        pnlControlLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnExportar, btnImportar});
+
+        pnlControlLayout.setVerticalGroup(
+            pnlControlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlControlLayout.createSequentialGroup()
+                .addGroup(pnlControlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnImportar)
+                    .addComponent(btnExportar))
                 .addGap(0, 12, Short.MAX_VALUE))
         );
 
@@ -314,20 +300,20 @@ public class View extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(pnlControles, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pnlDisplay, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pnlAjustes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(pnlControl, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnlRotulo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnlAjuste, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(pnlDisplay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pnlRotulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnlAjustes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pnlAjuste, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnlControles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pnlControl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -336,50 +322,50 @@ public class View extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        control.procesarCierreVentana(evt);
+        control.procesarCierreVista(evt);
     }//GEN-LAST:event_formWindowClosing
 
-    private void btnCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarActionPerformed
+    private void btnImportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImportarActionPerformed
         control.procesarImportacion(evt);
-    }//GEN-LAST:event_btnCargarActionPerformed
+    }//GEN-LAST:event_btnImportarActionPerformed
 
-    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+    private void btnExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarActionPerformed
         control.procesarExportacion(evt);
-    }//GEN-LAST:event_btnGuardarActionPerformed
+    }//GEN-LAST:event_btnExportarActionPerformed
 
     private void rbtFrenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtFrenteActionPerformed
-        control.procesarCambioFrenteFondo(evt);
+        control.procesarFrenteFondo(evt);
     }//GEN-LAST:event_rbtFrenteActionPerformed
 
     private void rbtFondoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtFondoActionPerformed
-        control.procesarCambioFrenteFondo(evt);
+        control.procesarFrenteFondo(evt);
     }//GEN-LAST:event_rbtFondoActionPerformed
 
     private void sldRojoStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sldRojoStateChanged
-        control.procesarAjusteColor(evt);
+        control.procesarColor(evt);
     }//GEN-LAST:event_sldRojoStateChanged
 
     private void sldVerdeStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sldVerdeStateChanged
-        control.procesarAjusteColor(evt);
+        control.procesarColor(evt);
     }//GEN-LAST:event_sldVerdeStateChanged
 
     private void sldAzulStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sldAzulStateChanged
-        control.procesarAjusteColor(evt);
+        control.procesarColor(evt);
     }//GEN-LAST:event_sldAzulStateChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup bg;
-    private javax.swing.JButton btnCargar;
-    private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnExportar;
+    private javax.swing.JButton btnImportar;
     public javax.swing.JLabel lblAzul;
     public javax.swing.JLabel lblFondo;
     public javax.swing.JLabel lblFrente;
     public javax.swing.JLabel lblRojo;
     public javax.swing.JLabel lblRotulo;
     public javax.swing.JLabel lblVerde;
-    private javax.swing.JPanel pnlAjustes;
-    private javax.swing.JPanel pnlControles;
-    private javax.swing.JPanel pnlDisplay;
+    private javax.swing.JPanel pnlAjuste;
+    private javax.swing.JPanel pnlControl;
+    private javax.swing.JPanel pnlRotulo;
     public javax.swing.JRadioButton rbtFondo;
     public javax.swing.JRadioButton rbtFrente;
     public javax.swing.JSlider sldAzul;
@@ -387,11 +373,27 @@ public class View extends javax.swing.JFrame {
     public javax.swing.JSlider sldVerde;
     // End of variables declaration//GEN-END:variables
 
-    public Model getModel() {
-        return model;
+    // Inicializacion Anterior
+    private void initBefore() {
+        // Crear Modelo
+        model = new Model();
+
+        // Crear Controlador
+        control = new Controller(model, this);
+
+        // Cargar Propiedades Vista
+        prpView = UtilesApp.cargarPropiedades(FICHERO);
+
+        // Restaurar Estado
+        control.restaurarEstadoVista(this, prpView);
     }
 
-    public void setModel(Model model) {
-        this.model = model;
+    // Inicializacion Posterior
+    private void initAfter() {
+        // Modelo > Vista
+        control.sincronizarModeloVista(model, this);
+
+        // Enfocar Control Inicial
+        btnImportar.requestFocus();
     }
 }

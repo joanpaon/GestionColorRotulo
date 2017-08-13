@@ -1,4 +1,4 @@
-/*
+/* 
  * Copyright 2017 José A. Pacheco Ondoño - joanpaon@gmail.com.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.japo.java.entities;
+package org.japo.java.models;
 
 import java.io.Serializable;
-import org.japo.java.lib.UtilesValidacion;
+import org.japo.java.libraries.UtilesValidacion;
 
 /**
  *
